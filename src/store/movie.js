@@ -19,7 +19,7 @@ export default {
     },
   },
   actions: {
-    async searchMovie({ commit }, payload) {
+    async searchMovie({ state, commit }, payload) {
       const { title, year, number } = payload;
       const res = await request(
         `apikey=${API_KEY}&s=${title}&y=${year}&page=1`,
@@ -34,6 +34,25 @@ export default {
         movies: Search,
         loading: true,
       });
+
+      const total = parseInt(totalResults, 10);
+      const pageLength = Math.ceil(total / 10);
+
+      if (pageLength > 1) {
+        for (let i = 2; i <= pageLength; i += 1) {
+          if (i > number / 10) break;
+          const res = await request(
+            `apikey=${API_KEY}&s=${title}&y=${year}&page=${i}`,
+            {
+              method: "GET",
+            }
+          );
+          const { Search } = res;
+          commit("setState", {
+            movies: [...state.movies, ...Search],
+          });
+        }
+      }
     },
   },
 };
