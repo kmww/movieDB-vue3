@@ -25,15 +25,12 @@
 </template>
 
 <script>
-import { request } from "~/apis/api";
-import { OMDB_API_KEY } from "~/constants/apikey";
-
 export default {
   data() {
     return {
       title: "",
       year: "",
-      number: 5,
+      number: 10,
       selected: [
         {
           name: "number",
@@ -55,13 +52,11 @@ export default {
   },
   methods: {
     async search() {
-      const res = await request(
-        `apikey=${OMDB_API_KEY}&s=${this.title}&y=${this.year}&page=1`,
-        {
-          method: "GET",
-        }
-      );
-      console.log(res);
+      this.$store.dispatch("movie/searchMovie", {
+        title: this.title,
+        year: this.year,
+        number: this.number,
+      });
     },
   },
 };
