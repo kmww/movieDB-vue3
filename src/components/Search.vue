@@ -20,11 +20,14 @@
         </option>
       </select>
     </div>
-    <button class="search--botton" @click="serach">Search!</button>
+    <button class="search--botton" @click="search">Search!</button>
   </div>
 </template>
 
 <script>
+import { request } from "~/apis/api";
+import { OMDB_API_KEY } from "~/constants/apikey";
+
 export default {
   data() {
     return {
@@ -34,7 +37,7 @@ export default {
       selected: [
         {
           name: "number",
-          items: [5, 10, 15, 20],
+          items: [10, 20, 30],
         },
         {
           name: "year",
@@ -51,7 +54,15 @@ export default {
     };
   },
   methods: {
-    search() {},
+    async search() {
+      const res = await request(
+        `apikey=${OMDB_API_KEY}&s=${this.title}&y=${this.year}&page=1`,
+        {
+          method: "GET",
+        }
+      );
+      console.log(res);
+    },
   },
 };
 </script>
