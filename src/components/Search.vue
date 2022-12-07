@@ -65,6 +65,8 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  justify-content: center;
+  margin: 20px 0;
   .title--input {
     width: 300px;
   }

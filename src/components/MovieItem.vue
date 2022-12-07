@@ -1,5 +1,6 @@
 <template>
-  <div
+  <RouterLink
+    :to="`/movie/${movieInfo.imdbID}`"
     :style="{ backgroundImage: `url(${movieInfo.Poster})` }"
     class="movie-item"
   >
@@ -11,7 +12,7 @@
         {{ movieInfo.Title }}
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <script>
@@ -20,6 +21,9 @@ export default {
     movieInfo: {
       type: Object,
       default: () => ({}),
+    },
+    created() {
+      console.log(movieInfo);
     },
   },
 };

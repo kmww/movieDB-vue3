@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <RouterView />
 </template>
 
@@ -13,3 +14,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+body {
+  background-color: #1e1a1a;
+}
+</style>

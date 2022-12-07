@@ -21,5 +21,20 @@ export default {
       ],
     };
   },
+  computed: {},
 };
 </script>
+
+<style lang="scss" scoped>
+.nav {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  .nav-item {
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+</style>
