@@ -18,6 +18,7 @@ export default {
       });
     },
   },
+
   actions: {
     async searchMovie({ state, commit }, payload) {
       const { title, year, number } = payload;
@@ -28,8 +29,6 @@ export default {
         }
       );
       const { Search, totalResults } = res;
-      console.log(res);
-      console.log(Search, totalResults);
       commit("setState", {
         movies: Search,
         loading: true,
