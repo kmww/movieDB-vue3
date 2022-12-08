@@ -3,8 +3,8 @@
     <input
       type="text"
       v-model="title"
-      placeholder="please enter movie title"
-      class="title--input"
+      placeholder="Search IMDb"
+      class="form-control form-control-lg"
       @keyup.enter="search"
     />
     <div class="selects">
@@ -12,7 +12,7 @@
         v-for="select in selected"
         v-model="$data[select.name]"
         :key="select.name"
-        class="select"
+        class="form-select form-select-lg"
       >
         <option v-if="select.name === 'year'" value="">All years</option>
         <option v-for="item in select.items" :key="item">
@@ -20,7 +20,9 @@
         </option>
       </select>
     </div>
-    <button class="search--botton" @click="search">Search!</button>
+    <button class="btn btn-primary" type="submit" @click="search">
+      Search
+    </button>
   </div>
 </template>
 
@@ -63,13 +65,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~/scss/custom";
+
 .container {
   display: flex;
-  justify-content: center;
-  margin: 20px 0;
-  .title--input {
-    width: 300px;
-  }
+  margin-top: 60px;
   > * {
     margin-right: 10px;
     &:last-child {
@@ -78,13 +78,20 @@ export default {
   }
   .selects {
     display: flex;
+    flex-shrink: 0;
     select {
-      width: 100px;
+      width: 150px;
       margin-right: 10px;
       &:last-child {
         margin-right: 0;
       }
     }
+  }
+  .btn {
+    width: 150px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    font-weight: 900;
   }
 }
 </style>

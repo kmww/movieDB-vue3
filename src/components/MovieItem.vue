@@ -22,21 +22,19 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    created() {
-      console.log(movieInfo);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "~/scss/custom";
 .movie-item {
   $width: 200px;
   position: relative;
   width: $width;
   height: $width * 1.3;
   border-radius: 5px;
-  margin: 10px;
+  margin: 15px 10px;
   overflow: hidden;
   background-color: grey;
   background-size: cover;
@@ -49,7 +47,7 @@ export default {
       bottom: 0;
       left: 0;
       right: 0;
-      border: 7px solid rgb(232, 232, 0);
+      border: 7px solid $info;
     }
   }
   .info {
@@ -65,7 +63,7 @@ export default {
     font-size: 0.8rem;
   }
   .year {
-    color: yellow;
+    color: $info;
   }
   .title {
     color: #fff;

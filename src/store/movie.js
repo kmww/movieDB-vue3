@@ -70,6 +70,7 @@ export default {
       const res = await request(`apikey=${API_KEY}&i=${payload.id}`, {
         method: "GET",
       });
+      window.localStorage.setItem("imdbID", res.imdbID);
       commit("setState", {
         movieDetail: res,
         loading: false,

@@ -1,8 +1,8 @@
 <template>
   <header>
-    <div class="nav">
+    <div class="nav nav-pills">
       <div v-for="nav in navigations" :key="nav.name" class="nav-item">
-        <RouterLink :to="nav.href" class="nav-link">
+        <RouterLink :to="nav.href" class="nav-link" active-class="active">
           {{ nav.name }}
         </RouterLink>
       </div>
@@ -16,19 +16,19 @@ export default {
     return {
       navigations: [
         { name: "Home", href: "/" },
-        { name: "Movie", href: "/movie" },
-        { name: "About", href: "/about" },
+        { name: "Details", href: `/movie` },
       ],
     };
   },
-  computed: {},
 };
 </script>
 
 <style lang="scss" scoped>
+@import "~/scss/custom";
 .nav {
+  color: white;
+  font-weight: 800;
   display: flex;
-  justify-content: center;
   padding: 10px;
   .nav-item {
     margin-right: 10px;
