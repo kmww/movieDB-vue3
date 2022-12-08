@@ -97,6 +97,7 @@ export default {
         margin-right: 70px;
         margin-bottom: 20px;
         border-radius: 10px;
+        background-color: grey;
         background-size: cover;
         background-position: center;
         flex-shrink: 0;
