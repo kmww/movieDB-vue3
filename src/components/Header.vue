@@ -1,5 +1,6 @@
 <template>
   <header>
+    <Logo />
     <div class="nav nav-pills">
       <div v-for="nav in navigations" :key="nav.name" class="nav-item">
         <RouterLink
@@ -16,7 +17,11 @@
 </template>
 
 <script>
+import Logo from "~/components/Logo";
 export default {
+  components: {
+    Logo,
+  },
   data() {
     return {
       navigations: [
@@ -36,15 +41,22 @@ export default {
 
 <style lang="scss" scoped>
 @import "~/scss/custom";
-.nav {
-  color: white;
-  font-weight: 800;
+header {
   display: flex;
-  padding: 10px;
-  .nav-item {
-    margin-right: 10px;
-    &:last-child {
-      margin-right: 0;
+  align-items: center;
+  .logo {
+    margin-right: 20px;
+  }
+  .nav {
+    color: white;
+    font-weight: 800;
+    display: flex;
+    padding: 10px;
+    .nav-item {
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
