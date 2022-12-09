@@ -2,7 +2,12 @@
   <header>
     <div class="nav nav-pills">
       <div v-for="nav in navigations" :key="nav.name" class="nav-item">
-        <RouterLink :to="nav.href" class="nav-link" active-class="active">
+        <RouterLink
+          :to="nav.path"
+          :class="{ active: isMatchLink(nav.match) }"
+          class="nav-link"
+          active-class="active"
+        >
           {{ nav.name }}
         </RouterLink>
       </div>
@@ -15,10 +20,16 @@ export default {
   data() {
     return {
       navigations: [
-        { name: "Home", href: "/" },
-        { name: "Details", href: `/movie` },
+        { name: "Home", path: "/" },
+        { name: "Details", path: `/movie`, match: "movie" },
       ],
     };
+  },
+  methods: {
+    isMatchLink(match) {
+      if (!match) return false;
+      return this.$route.fullPath.split("/").includes(match);
+    },
   },
 };
 </script>
