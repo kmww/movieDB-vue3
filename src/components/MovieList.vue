@@ -8,28 +8,25 @@
           :movieInfo="movie"
         />
       </div>
+      <nav v-if="movies.length" aria-label="Page navigation" class="navigation">
+        <ul class="pagination">
+          <li v-if="isValid(totalLength)" class="page-item">
+            <button class="page-link">1</button>
+          </li>
+
+          <li
+            v-else
+            v-for="pageNumber in totalLength"
+            :key="pageNumber"
+            class="page-item"
+          >
+            <button @click="searchMoreMovie(pageNumber)" class="page-link">
+              {{ pageNumber }}
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#">Previous</a>
-        </li>
-        <li v-if="isValid(totalLength)" class="page-item">
-          <a class="page-link" href="#">1</a>
-        </li>
-        <li
-          v-else
-          v-for="pageNumber in totalLength"
-          :key="pageNumber"
-          class="page-item"
-        >
-          <div @click="searchMoreMovie(pageNumber)" class="page-link" href="#">
-            {{ pageNumber }}
-          </div>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-      </ul>
-    </nav>
   </div>
 </template>
 
@@ -46,15 +43,6 @@ export default {
     },
     totalLength() {
       return this.$store.state.movie.totalLength;
-    },
-    title() {
-      return this.$store.state.movie.title;
-    },
-    number() {
-      return this.$store.state.movie.number;
-    },
-    year() {
-      return this.$store.state.movie.year;
     },
   },
   methods: {
@@ -79,10 +67,23 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
   }
-  .Page {
+  .navigation {
+    margin-top: 60px;
+    padding-right: 100px;
+    padding-left: 100px;
+    box-sizing: border-box;
     .pagination {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
+      .page-item {
+        color: $primary;
+        .page-link {
+          background-color: transparent;
+          border-color: #444;
+          margin-bottom: 1px;
+        }
+      }
     }
   }
 }
