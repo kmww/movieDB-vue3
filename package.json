@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "dev:webpack": "webpack-dev-server --mode development",
+    "dev": "netlify dev",
     "build": "webpack --mode production"
   },
   "keywords": [],
@@ -14,7 +15,9 @@
     "@vue/compiler-sfc": "^3.2.45",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.2",
+    "dotenv-webpack": "^8.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "netlify-cli": "^12.2.9",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "vue-loader": "^17.0.1",
@@ -24,6 +27,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "vue": "^3.2.36",
     "vue-router": "^4.0.13",

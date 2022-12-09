@@ -1,5 +1,4 @@
-import { API_KEY } from "~/constants/apikey";
-import { request } from "~/apis/api";
+import axios from "axios";
 
 export default {
   namespaced: true,
@@ -25,51 +24,58 @@ export default {
 
   actions: {
     async searchMovie({ state, commit }, payload) {
-      if (state.loading) return;
+      try {
+        if (state.loading) return;
 
-      commit("setState", {
-        movies: [],
-        loading: true,
-      });
+        commit("setState", {
+          movies: [],
+          loading: true,
+        });
 
-      const { title, year, number } = payload;
-      const res = await request(
-        `apikey=${API_KEY}&s=${title}&y=${year}&page=1`,
-        {
-          method: "GET",
+        const { title, year, number } = payload;
+        const res = await fetchMovie({
+          ...payload,
+          i: 1,
+        });
+
+        const { Search, totalResults } = res.data;
+        const total = parseInt(totalResults, 10);
+        const pageLength = Math.ceil(total / number);
+
+        commit("setState", {
+          movies: Search,
+          loading: false,
+          totalLength: pageLength,
+          total: totalResults,
+          title,
+          year,
+          number,
+        });
+
+        if (pageLength > 1) {
+          for (let i = 2; i <= pageLength; i += 1) {
+            if (i > number / 10) break;
+            const res = await fetchMovie({
+              ...payload,
+              i,
+            });
+
+            const { Search } = res.data;
+            commit("setState", {
+              movies: [...state.movies, ...Search],
+              loading: false,
+              totalLength: pageLength,
+            });
+          }
         }
-      );
-
-      const { Search, totalResults } = res;
-      const total = parseInt(totalResults, 10);
-      const pageLength = Math.ceil(total / number);
-
-      commit("setState", {
-        movies: Search,
-        loading: false,
-        totalLength: pageLength,
-        total: totalResults,
-        title,
-        year,
-        number,
-      });
-
-      if (pageLength > 1) {
-        for (let i = 2; i <= pageLength; i += 1) {
-          if (i > number / 10) break;
-          const res = await request(
-            `apikey=${API_KEY}&s=${title}&y=${year}&page=${i}`,
-            {
-              method: "GET",
-            }
-          );
-          const { Search } = res;
-          commit("setState", {
-            movies: [...state.movies, ...Search],
-            loading: false,
-            totalLength: pageLength,
-          });
-        }
+      } catch (error) {
+        commit("setState", {
+          movies: [],
+        });
+      } finally {
+        commit("setState", {
+          loading: false,
+        });
       }
     },
 
@@ -87,13 +93,12 @@ export default {
 
       for (let i = start; i <= end; i += 1) {
         if (i > Math.ceil(state.total / 10)) break;
-        const res = await request(
-          `apikey=${API_KEY}&s=${state.title}&y=${state.year}&page=${i}`,
-          {
-            method: "GET",
-          }
-        );
-        const { Search } = res;
+        const res = await fetchMovie({
+          title: state.title,
+          year: state.year,
+          i,
+        });
+        const { Search } = res.data;
         commit("setState", {
           movies: [...state.movies, ...Search],
           loading: false,
@@ -108,15 +113,19 @@ export default {
         loading: true,
         movieDetail: {},
       });
-
-      const res = await request(`apikey=${API_KEY}&i=${payload.id}`, {
-        method: "GET",
+      const res = await fetchMovie({
+        id: payload.id,
       });
-      window.localStorage.setItem("imdbID", res.imdbID);
+
+      window.localStorage.setItem("imdbID", res.data.imdbID);
       commit("setState", {
-        movieDetail: res,
+        movieDetail: res.data,
         loading: false,
       });
     },
   },
 };
+
+async function fetchMovie(payload) {
+  return await axios.post("/.netlify/functions/workspace", payload);
+}

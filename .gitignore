@@ -3,4 +3,6 @@ dist/
 .vscode/
 .idea/
 .DS_Store
-constants/
+.env
+# Local Netlify folder
+.netlify

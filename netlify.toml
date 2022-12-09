@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "dist"
+[dev]
+  framwork = "#custom"
+  command = "npm run dev:webpack"
+  targetPort = 8079
+  port = 8080
+  publish = "dist"
+  autoLaunch = false
