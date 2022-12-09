@@ -36,7 +36,7 @@ export default {
       selected: [
         {
           name: "number",
-          items: [10, 20, 30, 40, 50],
+          items: [10, 20, 30],
         },
         {
           name: "year",
