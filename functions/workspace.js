@@ -8,21 +8,10 @@ exports.handler = async function (event) {
     ? `https://www.omdbapi.com/?apikey=${API_KEY}&i=${id}`
     : `https://www.omdbapi.com/?apikey=${API_KEY}&s=${title}&y=${year}&page=${i}`;
 
-  try {
-    const res = await axios.get(url);
-    if (res.data.Error) {
-      return {
-        statusCode: 400,
-        body: res.data.Error,
-      };
-    }
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res.data),
-    };
-  } catch (error) {
-    return {
-      statusCode: error.response.status,
-    };
-  }
+  const { data } = await axios.get(url);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data),
+  };
 };
