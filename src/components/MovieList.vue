@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <Loading v-if="isLoading" />
+  <div v-else class="container">
     <div class="inner">
       <div class="movies">
         <MovieItem
@@ -32,10 +33,11 @@
 
 <script>
 import MovieItem from "~/components/MovieItem";
-
+import Loading from "~/components/Loading";
 export default {
   components: {
     MovieItem,
+    Loading,
   },
   computed: {
     movies() {
@@ -43,6 +45,9 @@ export default {
     },
     totalLength() {
       return this.$store.state.movie.totalLength;
+    },
+    isLoading() {
+      return this.$store.state.movie.loading;
     },
   },
   methods: {

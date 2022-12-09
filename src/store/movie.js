@@ -30,10 +30,6 @@ export default {
       commit("setState", {
         movies: [],
         loading: true,
-        title: null,
-        year: "",
-        number: null,
-        total: null,
       });
 
       const { title, year, number } = payload;
@@ -76,6 +72,7 @@ export default {
         }
       }
     },
+
     async searchMoreMovie({ state, commit }, payload) {
       if (state.loading) return;
 
@@ -84,17 +81,12 @@ export default {
         loading: true,
       });
 
-      // 1: 1~3  2: 4~6 3: 7~9
-      // (pageNumber * number / 10) = 6
-      // (pageNumber * number / 10) - (number / 10) + 1 = 4
       const page = parseInt(payload, 10);
-      for (
-        let i = (page * state.number) / 10 - state.number / 10 + 1;
-        i <= (page * state.number) / 10;
-        i += 1
-      ) {
+      const start = (state.number * (page - 1) + 10) / 10;
+      const end = (state.number * page) / 10;
+
+      for (let i = start; i <= end; i += 1) {
         if (i > Math.ceil(state.total / 10)) break;
-        console.log(i);
         const res = await request(
           `apikey=${API_KEY}&s=${state.title}&y=${state.year}&page=${i}`,
           {
