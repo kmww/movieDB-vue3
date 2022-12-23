@@ -27,7 +27,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
 .movie-item {
   $width: 200px;
   position: relative;

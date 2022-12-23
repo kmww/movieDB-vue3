@@ -6,8 +6,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
-
 .not-found {
   text-align: center;
   padding: 100px 20px;

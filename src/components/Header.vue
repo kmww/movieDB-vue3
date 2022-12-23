@@ -40,7 +40,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
 header {
   display: flex;
   align-items: center;

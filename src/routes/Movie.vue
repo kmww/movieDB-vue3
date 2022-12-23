@@ -83,8 +83,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
-
 .container {
   padding: 40px;
   .movie-details {

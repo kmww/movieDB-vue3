@@ -69,7 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
 .container {
   margin-top: 60px;
   .movies {

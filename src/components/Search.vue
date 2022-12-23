@@ -65,8 +65,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
-
 .container {
   display: flex;
   margin-top: 60px;

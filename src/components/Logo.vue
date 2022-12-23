@@ -5,7 +5,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import "~/scss/custom";
 .logo {
   border: 2px solid $primary;
   border-radius: 5px;
