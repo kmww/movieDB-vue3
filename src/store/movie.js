@@ -54,7 +54,8 @@ export default {
 
         if (pageLength > 1) {
           for (let i = 2; i <= pageLength; i += 1) {
-            if (i > number / 10) break;
+            const numOfPageOutputs = number / 10;
+            if (i > numOfPageOutputs) break;
             const res = await fetchMovie({
               ...payload,
               i,
