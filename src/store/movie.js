@@ -52,22 +52,19 @@ export default {
           number,
         });
 
-        if (pageLength > 1) {
-          for (let i = 2; i <= pageLength; i += 1) {
-            const numOfPageOutputs = number / 10;
-            if (i > numOfPageOutputs) break;
-            const res = await fetchMovie({
-              ...payload,
-              i,
-            });
-
-            const { Search } = res.data;
-            commit("setState", {
-              movies: [...state.movies, ...Search],
-              loading: false,
-              totalLength: pageLength,
-            });
-          }
+        if (pageLength <= 1) return;
+        for (let i = 2; i <= pageLength; i += 1) {
+          if (i > number / 10) break;
+          const res = await fetchMovie({
+            ...payload,
+            i,
+          });
+          const { Search } = res.data;
+          commit("setState", {
+            movies: [...state.movies, ...Search],
+            loading: false,
+            totalLength: pageLength,
+          });
         }
       } catch (error) {
         commit("setState", {
