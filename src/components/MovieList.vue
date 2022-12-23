@@ -11,7 +11,7 @@
       </div>
       <nav v-if="movies.length" aria-label="Page navigation" class="navigation">
         <ul class="pagination">
-          <li v-if="isValid(totalLength)" class="page-item">
+          <li v-if="isValidIteration(totalLength)" class="page-item">
             <button class="page-link">1</button>
           </li>
 
@@ -39,6 +39,11 @@ export default {
     MovieItem,
     Loading,
   },
+  data() {
+    return {
+      NotIterationNumber: [0, 1],
+    };
+  },
   computed: {
     movies() {
       return this.$store.state.movie.movies;
@@ -51,8 +56,8 @@ export default {
     },
   },
   methods: {
-    isValid(number) {
-      if (number === 1 || number === 0) {
+    isValidIteration(number) {
+      if (this.NotIterationNumber.includes(number)) {
         return false;
       }
     },
