@@ -12,6 +12,7 @@ export default {
       title: null,
       year: "",
       number: null,
+      errorMsg: "",
     };
   },
   mutations: {
@@ -30,6 +31,7 @@ export default {
         commit("setState", {
           movies: [],
           loading: true,
+          errorMsg: "",
         });
 
         const { title, year, number } = payload;
@@ -69,6 +71,7 @@ export default {
       } catch (error) {
         commit("setState", {
           movies: [],
+          errorMsg: error.message,
         });
       } finally {
         commit("setState", {

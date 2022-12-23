@@ -2,6 +2,12 @@
   <Loading v-if="isLoading" />
   <div v-else class="container">
     <div class="inner">
+      <div
+        v-show="errorMessage.length > 0 ? true : false"
+        class="error-message"
+      >
+        {{ errorMessage }}
+      </div>
       <div class="movies">
         <MovieItem
           v-for="movie in movies"
@@ -51,6 +57,7 @@ export default {
       movies: "movies",
       totalLength: "totalLength",
       isLoading: "loading",
+      errorMessage: "errorMsg",
     }),
   },
   methods: {
@@ -69,6 +76,11 @@ export default {
 <style lang="scss" scoped>
 .container {
   margin-top: 60px;
+  .error-message {
+    color: $warning;
+    font-size: 2rem;
+    font-weight: 700;
+  }
   .movies {
     display: flex;
     flex-wrap: wrap;
