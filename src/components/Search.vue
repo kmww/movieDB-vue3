@@ -40,14 +40,9 @@ export default {
         },
         {
           name: "year",
-          items: (() => {
-            const years = [];
-            const curYear = new Date().getFullYear();
-            for (let i = curYear; i >= 1980; i -= 1) {
-              years.push(i);
-            }
-            return years;
-          })(),
+          items: Array(new Date().getFullYear() - 1980)
+            .fill()
+            .map((_, i) => new Date().getFullYear() - i),
         },
       ],
     };
