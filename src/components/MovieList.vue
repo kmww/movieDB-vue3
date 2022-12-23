@@ -34,6 +34,8 @@
 <script>
 import MovieItem from "~/components/MovieItem";
 import Loading from "~/components/Loading";
+import { mapState } from "vuex";
+
 export default {
   components: {
     MovieItem,
@@ -45,15 +47,11 @@ export default {
     };
   },
   computed: {
-    movies() {
-      return this.$store.state.movie.movies;
-    },
-    totalLength() {
-      return this.$store.state.movie.totalLength;
-    },
-    isLoading() {
-      return this.$store.state.movie.loading;
-    },
+    ...mapState("movie", {
+      movies: "movies",
+      totalLength: "totalLength",
+      isLoading: "loading",
+    }),
   },
   methods: {
     isValidIteration(number) {
