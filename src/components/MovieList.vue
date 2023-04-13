@@ -89,6 +89,14 @@ export default {
       this.$store.dispatch('movie/searchMoreMovie', pageNumber);
     },
   },
+  watch: {
+    async totalLength() {
+      this.currentPage = 1;
+    },
+    async errorMessage() {
+      this.currentPage = 1;
+    },
+  },
 };
 </script>
 
