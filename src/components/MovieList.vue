@@ -14,6 +14,7 @@
           :movieInfo="movie" />
       </div>
       <nav
+        v-show="errorMessage.length > 0 ? false : true"
         v-if="totalLength > 1"
         aria-label="Page navigation"
         class="navigation">
