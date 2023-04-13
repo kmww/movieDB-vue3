@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   namespaced: true,
@@ -10,9 +10,9 @@ export default {
       totalLength: 1,
       total: null,
       title: null,
-      year: "",
+      year: '',
       number: null,
-      errorMsg: "",
+      errorMsg: '',
     };
   },
   mutations: {
@@ -28,10 +28,10 @@ export default {
       try {
         if (state.loading) return;
 
-        commit("setState", {
+        commit('setState', {
           movies: [],
           loading: true,
-          errorMsg: "",
+          errorMsg: '',
         });
 
         const { title, year, number } = payload;
@@ -44,7 +44,7 @@ export default {
         const total = parseInt(totalResults, 10);
         const pageLength = Math.ceil(total / number);
 
-        commit("setState", {
+        commit('setState', {
           movies: Search,
           loading: false,
           totalLength: pageLength,
@@ -62,19 +62,22 @@ export default {
             i,
           });
           const { Search } = res.data;
-          commit("setState", {
+          commit('setState', {
             movies: [...state.movies, ...Search],
             loading: false,
             totalLength: pageLength,
           });
         }
-      } catch (error) {
-        commit("setState", {
+      } catch ({ response }) {
+        commit('setState', {
           movies: [],
-          errorMsg: error.message,
+          errorMsg:
+            response.data === 'Movie not found!'
+              ? '존재하지 않는 영화입니다. 제목을 확인해주세요.'
+              : '잘못된 접근입니다. 영어로 다시 입력해주세요.',
         });
       } finally {
-        commit("setState", {
+        commit('setState', {
           loading: false,
         });
       }
@@ -83,7 +86,7 @@ export default {
     async searchMoreMovie({ state, commit }, payload) {
       if (state.loading) return;
 
-      commit("setState", {
+      commit('setState', {
         movies: [],
         loading: true,
       });
@@ -100,7 +103,7 @@ export default {
           i,
         });
         const { Search } = res.data;
-        commit("setState", {
+        commit('setState', {
           movies: [...state.movies, ...Search],
           loading: false,
         });
@@ -110,7 +113,7 @@ export default {
     async searchMovieDetail({ state, commit }, payload) {
       if (state.loading) return;
 
-      commit("setState", {
+      commit('setState', {
         loading: true,
         movieDetail: {},
       });
@@ -118,8 +121,8 @@ export default {
         id: payload.id,
       });
 
-      window.localStorage.setItem("imdbID", res.data.imdbID);
-      commit("setState", {
+      window.localStorage.setItem('imdbID', res.data.imdbID);
+      commit('setState', {
         movieDetail: res.data,
         loading: false,
       });
@@ -128,5 +131,5 @@ export default {
 };
 
 async function fetchMovie(payload) {
-  return await axios.post("/.netlify/functions/workspace", payload);
+  return await axios.post('/.netlify/functions/workspace', payload);
 }
