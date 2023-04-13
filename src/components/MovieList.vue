@@ -4,31 +4,36 @@
     <div class="inner">
       <div
         v-show="errorMessage.length > 0 ? true : false"
-        class="error-message"
-      >
+        class="error-message">
         {{ errorMessage }}
       </div>
       <div class="movies">
         <MovieItem
           v-for="movie in movies"
           :key="movie.imdbID"
-          :movieInfo="movie"
-        />
+          :movieInfo="movie" />
       </div>
-      <nav v-if="movies.length" aria-label="Page navigation" class="navigation">
+      <nav
+        v-if="totalLength > 1"
+        aria-label="Page navigation"
+        class="navigation">
         <ul class="pagination">
-          <li v-if="isValidIteration(totalLength)" class="page-item">
-            <button class="page-link">1</button>
+          <li v-if="currentPage > 1" class="page-item">
+            <button @click="searchMoreMovie(currentPage - 1)" class="page-link">
+              이전
+            </button>
           </li>
-
           <li
-            v-else
-            v-for="pageNumber in totalLength"
+            v-for="pageNumber in getPageNumbers"
             :key="pageNumber"
-            class="page-item"
-          >
+            :class="['page-item', { active: currentPage === pageNumber }]">
             <button @click="searchMoreMovie(pageNumber)" class="page-link">
               {{ pageNumber }}
+            </button>
+          </li>
+          <li v-if="currentPage < totalLength" class="page-item">
+            <button @click="searchMoreMovie(currentPage + 1)" class="page-link">
+              다음
             </button>
           </li>
         </ul>
@@ -38,9 +43,9 @@
 </template>
 
 <script>
-import MovieItem from "~/components/MovieItem";
-import Loading from "~/components/Loading";
-import { mapState } from "vuex";
+import MovieItem from '~/components/MovieItem';
+import Loading from '~/components/Loading';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -49,25 +54,39 @@ export default {
   },
   data() {
     return {
-      NotIterationNumber: [0, 1],
+      currentPage: 1,
     };
   },
   computed: {
-    ...mapState("movie", {
-      movies: "movies",
-      totalLength: "totalLength",
-      isLoading: "loading",
-      errorMessage: "errorMsg",
+    ...mapState('movie', {
+      movies: 'movies',
+      totalLength: 'totalLength',
+      isLoading: 'loading',
+      errorMessage: 'errorMsg',
     }),
+    getPageNumbers() {
+      const pageNumbers = [];
+      for (let i = 1; i <= this.totalLength; i++) {
+        pageNumbers.push(i);
+      }
+      const currentPageIndex = pageNumbers.indexOf(this.currentPage);
+      let start = currentPageIndex - 2;
+      let end = currentPageIndex + 2;
+      if (start < 0) {
+        end += Math.abs(start);
+        start = 0;
+      }
+      if (end > pageNumbers.length - 1) {
+        start -= end - (pageNumbers.length - 1);
+        end = pageNumbers.length - 1;
+      }
+      return pageNumbers.slice(start, end + 1);
+    },
   },
   methods: {
-    isValidIteration(number) {
-      if (this.NotIterationNumber.includes(number)) {
-        return false;
-      }
-    },
     async searchMoreMovie(pageNumber) {
-      this.$store.dispatch("movie/searchMoreMovie", pageNumber);
+      this.currentPage = pageNumber;
+      this.$store.dispatch('movie/searchMoreMovie', pageNumber);
     },
   },
 };
